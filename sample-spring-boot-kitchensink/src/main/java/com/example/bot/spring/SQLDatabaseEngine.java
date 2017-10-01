@@ -12,10 +12,46 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 	@Override
 	String search(String text) throws Exception {
 		//Write your code here
-		
-		return null;
-		
-	}
+//		try {
+//
+//			Connection connection = this.getConnection();
+//			PreparedStatement stmt = connection.prepareStatement("SELECT keyword, response FROM dictionary WHERE keyword LIKE '"+ text + "' );");
+//			ResultSet rs =  stmt.executeQuery();
+//			return text;
+//			while(rs.next()){
+//					return "def";				
+//					//return rs.getString(2);
+//			}
+//			rs.close();
+//			stmt.close();
+//			connection.close();
+//		}
+//		catch (Exception e)
+//		{
+//			System.out.println(e);
+//		}
+//		return null;
+	
+		try
+		{
+			Connection connection = this.getConnection();
+			PreparedStatement stmt = connection.prepareStatement("SELECT keyword, response FROM dictionary WHERE keyword LIKE '" +text+ "' ;");
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next())
+			{
+					return rs.getString(2);
+
+			}
+			rs.close();
+			stmt.close();
+			connection.close();
+		}
+		catch (Exception e)
+		{
+			return null;
+		}	
+		throw new Exception("NOT FOUND");
+}
 	
 	
 	private Connection getConnection() throws URISyntaxException, SQLException {
